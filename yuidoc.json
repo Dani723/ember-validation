@@ -1,0 +1,12 @@
+{
+  "name": "Ember Validation API",
+  "description": "",
+  "version": "0.1.0",
+  "url": "",
+  "options": {
+    "paths": [
+      "src/"
+    ],
+    "outdir":   "./docs"
+  }
+}

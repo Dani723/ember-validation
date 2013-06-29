@@ -1,0 +1,39 @@
+{
+	"name": "ember-validation",
+	"title": "ember-validation",
+	"description": "",
+	"version": "0.1.0",
+	"homepage": "https://github.com/Dani723/ember-validation",
+	"author": {
+		"name": "Daniel Kuczewski",
+		"url": "https://www.dk2.eu"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Dani723/ember-validation"
+	},
+	"bugs": {
+		"url": ""
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": ""
+		}
+	],
+	"dependencies": {},
+	"devDependencies": {
+		"grunt-contrib-watch": "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-contrib-qunit": "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-concat": "*",
+    "grunt-contrib-yuidoc": "*",
+		"grunt": "*"
+	},
+	"keywords": [],
+
+  "scripts" : {
+    "start": "node main.js"
+  }
+}
