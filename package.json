@@ -1,7 +1,7 @@
 {
 	"name": "ember-validation",
 	"title": "ember-validation",
-	"description": "",
+	"description": "validation functionality for ember and non-ember objects.",
 	"version": "0.1.0",
 	"homepage": "https://github.com/Dani723/ember-validation",
 	"author": {
@@ -18,18 +18,17 @@
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": ""
+			"url": "https://github.com/Dani723/ember-validation/blob/master/MIT-LICENSE.txt"
 		}
 	],
 	"dependencies": {},
 	"devDependencies": {
-		"grunt-contrib-watch": "*",
-		"grunt-contrib-jshint": "*",
-		"grunt-contrib-qunit": "*",
-		"grunt-contrib-uglify": "*",
-		"grunt-contrib-concat": "*",
-    "grunt-contrib-yuidoc": "*",
-		"grunt": "*"
+		"grunt-contrib-jshint": "0.6.0",
+		"grunt-contrib-qunit": "0.2.2",
+		"grunt-contrib-uglify": "0.2.2",
+		"grunt-contrib-concat": "0.3.0",
+    "grunt-contrib-yuidoc": "0.4.0",
+		"grunt": "0.4.1"
 	},
 	"keywords": [],
 
