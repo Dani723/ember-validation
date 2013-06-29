@@ -38,7 +38,7 @@ Both versions of Ember Validation will be put in the 'dist' directory
 ```js
 App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
 
-  validation: Ember.Validation.map(function() {
+  validator: Ember.Validation.map(function() {
     this.property("name").required().minLength(4);
     this.property("email", "E-Mail").required().mail();
     this.property("age").required().integer().min(function(){
