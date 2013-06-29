@@ -4,7 +4,6 @@ This library provides validation functionality for ember and non-ember objects.
 
 
 ## How to build
-------------
 
 You need to have node/npm and grunt installed to build Ember Validation.
 
@@ -154,6 +153,7 @@ var user = App.User.create({
 });
 
 var result = user.validate();
+```
 
 To check if a validation already took place, use the 'validated' property.
 
@@ -166,8 +166,6 @@ var isValidated = user.get('isValidated');
 The result of each validation is represented by an ValidationResult-Object, which is returned by the validate() method
 and also stored in the validationResult-property of the validated object.
 
-
-```
 The most important properties for sure are 'isValid' and 'hasError' which simply can be true or false.
 
 ```js
@@ -192,12 +190,21 @@ An array with a list of all occurred errors can be obtained via the 'errors' pro
 ```js
 var errors = result.get('errors');
 ```
+or
+```js
+var errors = user.get('validationResult.errors');
+```
 
 To get the result of a specific property just use its name as a key
 
 ```js
 var isValid = result.get('name.isValid');
 var error = result.get('name.error');
+```
+or
+```js
+var isValid = user.get('validationResult.name.isValid');
+var error = user.get('validationResult.name.error');
 ```
 
 ## Built in validators
@@ -229,7 +236,7 @@ this.property("age").required().integer().min(function(){
   } else {
     return 18;
   }
-})
+});
 ```
 
 ## Error messages
@@ -238,13 +245,17 @@ The default error messages can be overridden.
 To do so, call the message() method after the corresponding validator.
 
 ```js
-this.property("email", "E-Mail").required().message('A mail address is required').mail().message('Mail address not valid');
+this.property("email", "E-Mail")
+        .required().message('A mail address is required')
+        .mail().message('Mail address not valid');
 ```
 
 A global message for all rules of a property can be set as follows
 
 ```js
-this.property("email", "E-Mail").message('A valid mail address is required').required().mail();
+this.property("email", "E-Mail").message('A valid mail address is required')
+        .required()
+        .mail();
 ```
 
 
