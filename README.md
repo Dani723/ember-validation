@@ -62,7 +62,6 @@ App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
         .message("Passwords must be equal");
   })
 });
-```
 
 var user = App.User.create({
     name: 'Mike',
@@ -130,7 +129,7 @@ var result = validator.validate(user);
 
 The validate() method returns a ValidationResult-Object which is explained later.
 
-### The ValidatorSupport Mixin - 1
+### The ValidatorSupport Mixin
 
 The Ember.Validation.ValidatorSupport Mixin adds validation functionality to ember objects
 
@@ -203,20 +202,20 @@ var error = result.get('name.error');
 
 ## Built in validators
 
-required() - checks if there is a value
-number() - checks if value is a numeric
-integer() - checks if value is an integer
-min(5) -  checks if value is greater than or equal to 5
-max(10) -  checks if value is less than or equal to 10
-range(5, 10) -  checks if value is greater than or equal to 5 and less than or equal to 10
-string() - checks if value is a string
-mail() - checks if value is a valid mail address
-minLength(5) -  checks if value has at least 5 characters
-maxLength(10) -  checks if value has at most 10 characters
-length(5, 10) -  checks if value has at least 5 characters and at most 10 characters
-equals('foo') - checks if value equals 'foo'
-match(/myregex/) - checks if value matches the regular expression
-noMatch(/myregex/) - checks if value doesn't match the regular expression
+* required() - checks if there is a value
+* number() - checks if value is a numeric
+* integer() - checks if value is an integer
+* min(5) -  checks if value is greater than or equal to 5
+* max(10) -  checks if value is less than or equal to 10
+* range(5, 10) -  checks if value is greater than or equal to 5 and less than or equal to 10
+* string() - checks if value is a string
+* mail() - checks if value is a valid mail address
+* minLength(5) -  checks if value has at least 5 characters
+* maxLength(10) -  checks if value has at most 10 characters
+* length(5, 10) -  checks if value has at least 5 characters and at most 10 characters
+* equals('foo') - checks if value equals 'foo'
+* match(/myregex/) - checks if value matches the regular expression
+* noMatch(/myregex/) - checks if value doesn't match the regular expression
 
 It is also possible to use functions as a value. When the property is validated the function is called and the return
 value is used for validation.
