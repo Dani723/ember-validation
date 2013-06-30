@@ -42,7 +42,7 @@ App.Example4Route = App.ExampleRoute.extend();
 // models
 
 //App.teritory = 'US';
-App.teritory = 'EU';
+App.territory = 'EU';
 
 App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
 
@@ -52,7 +52,7 @@ App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
     this.property("email", "E-Mail").required().mail();
 
     this.property("age").required().integer().min(function(){
-      if(App.teritory === 'US') {
+      if(App.territory === 'US') {
         return 21;
       } else {
         return 18;

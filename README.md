@@ -42,7 +42,7 @@ App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
     this.property("name").required().minLength(4);
     this.property("email", "E-Mail").required().mail();
     this.property("age").required().integer().min(function(){
-      if(App.teritory === 'US') {
+      if(App.territory === 'US') {
         return 21;
       } else {
         return 18;
@@ -91,8 +91,8 @@ var validator = Ember.Validation.map(function() {
 ```
 
 To add validation rules for specific properties, call the property() method of the function context.
-These rules can be chained together. The built-in rules are listed below (see [Built in validators]).
-It is also possible to define own rules (see [Custom validators]).
+These rules can be chained together. The built-in rules are listed below (see [Built in rules]).
+It is also possible to define own rules (see [Custom rules]).
 
 ```js
 var validator = Ember.Validation.map(function() {
@@ -207,7 +207,7 @@ var isValid = user.get('validationResult.name.isValid');
 var error = user.get('validationResult.name.error');
 ```
 
-## Built in validators
+## Built in rules
 
 * required() - checks if there is a value
 * number() - checks if value is a numeric
@@ -228,10 +228,10 @@ It is also possible to use functions as a value. When the property is validated 
 value is used for validation.
 
 ```js
-var teritory = 'US'; // can change
+var territory = 'US'; // can change
 ...
 this.property("age").required().integer().min(function(){
-  if(teritory === 'US') {
+  if(territory === 'US') {
     return 21;
   } else {
     return 18;
@@ -289,11 +289,11 @@ App.ValidatorTextField = Ember.TextField.extend(Ember.Validation.ValidatorViewSu
 
 Please take a look at the example for further information on usage.
 
-## Custom validators
+## Custom rules
 
 ### The custom() rule
 
-A quick way to implement any custom validator is to make use of the custom() rule.
+A quick way to implement any custom rule is to make use of the custom() rule.
 
 ```js
 this.property("name").required().custom(function(value){
@@ -301,13 +301,13 @@ this.property("name").required().custom(function(value){
 }).message("String must be upper case");
 ```
 
-### Adding a custom validator
+### Adding a custom rules
 
-Every custom validator must extend from Ember.Validation.BaseValidator.
+Every custom rule must extend from Ember.Validation.BaseRule.
 The validate() method must be overridden. Its also possible to define a error message.
 
 ```js
-Ember.Validation.UpperCaseValidator = Ember.Validation.BaseValidator.extend({
+Ember.Validation.UpperCaseRule = Ember.Validation.BaseRule.extend({
     message:"String must be upper case",
     validate: function(value, obj) {
         return value === value.toUpperCase();
@@ -315,13 +315,13 @@ Ember.Validation.UpperCaseValidator = Ember.Validation.BaseValidator.extend({
 });
 ```
 
-To make a custom validator available for chaining, call the registerValidator() method:
+To make a custom rule available for chaining, call the registerRule() method:
 
 ```js
-Ember.Validation.registerValidator("upper", Ember.Validation.UpperCaseValidator);
+Ember.Validation.registerRule("upper", Ember.Validation.UpperCaseRule);
 ```
 
-Now you can use your custom validator the same way as the built in validators
+Now you can use your custom rule the same way as the built in rules.
 
 ```js
 this.property("name").required().upper();
