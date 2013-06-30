@@ -309,7 +309,7 @@ The placeholder for the property name is %@1. The parameter placeholders are %@2
 
 ```js
 Ember.Validation.CaseRule = Ember.Validation.BaseRule.extend({
-    message:"String in @1 must be @2 case",
+    message:"String in %@1 must be %@2 case",
     validate: function(value, case) {
         if(case==='upper') {
             return value === value.toUpperCase();
