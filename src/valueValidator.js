@@ -33,25 +33,18 @@ Ember.Validation.ValueValidator = Ember.Object.extend({
    */
   validate: function(value, obj) {
 
-    var result = Ember.Validation.Result.create();
-
+    var vresult = Ember.Validation.Result.create();
     var rules = get(this, 'rules');
 
     for (var i=0; i<rules.length; i++) {
-
-      //todo find better way
-      set(rules[i], 'context', obj);
-
-      var valid = rules[i].validate(value, obj);
-      if(!valid  || rules[i].override) {
-        if(!valid) {
-          var error = get(rules[i], 'error');
-          result.setError(error);
+      var result = rules[i]._validate(value, obj);
+      if(!result.isValid  || result.override) {
+        if(!result.isValid) {
+          vresult.setError(result.error);
         }
         break;
       }
     }
-
-    return result;
+    return vresult;
   }
 });

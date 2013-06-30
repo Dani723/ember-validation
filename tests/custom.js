@@ -43,10 +43,10 @@
 
     var validator = chain.test3().done();
 
-    var result = validator.validate('test', true);
+    var result = validator.validate('test');
     strictEqual(get(result, 'isValid'), true, "custom rule isValid");
 
-    result = validator.validate('foo', true);
+    result = validator.validate('foo');
     strictEqual(get(result, 'isValid'), false, "custom rule !isValid");
     strictEqual(get(result, 'error'), 'Test3Rule error message', "custom validator error message");
 

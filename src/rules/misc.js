@@ -5,11 +5,12 @@ Ember.Validation.RequiredRule = Ember.Validation.BaseRule.extend({
   message: msgs.required,
   override: false,
 
-  validate: function(value, obj) {
-    var required = get(this, 'parameter');
-
-    set(this, 'override', !value && !required);
+  validate: function(value, required) {
     return !value ? !required : true;
+  },
+
+  override: function(value, isValid, required) {
+    return !value && !required;
   }
 
 });
@@ -18,25 +19,32 @@ Ember.Validation.EqualsRule = Ember.Validation.BaseRule.extend({
 
   message: msgs.equals,
 
-  validate: function(value, obj) {
-    return value == get(this, 'parameter');
+  validate: function(value, value2) {
+    return value === value2;
   }
 });
 
 Ember.Validation.CustomRule = Ember.Validation.BaseRule.extend({
 
-  init: function() {
-    this._super();
+  _validate: function(value, context) {
 
-    var callback = get(this, 'rawParameter');
+    var result = {
+      isValid:true,
+      error:"",
+      override:false
+    };
+
+    var callback = get(this, 'parameters')[0];
     if(typeof callback !== "function") {
       throw new Error("CustomRule parameter must be function");
     }
-  },
 
-  validate: function(value, obj) {
-    var callback = get(this, 'rawParameter');
-    return callback.call(obj, value);
+    result.isValid = callback.call(context, value);
+    if(!result.isValid) {
+      result.error = this.getError([]);
+    }
+
+    return result;
   }
 });
 

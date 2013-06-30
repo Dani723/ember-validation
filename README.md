@@ -305,26 +305,31 @@ this.property("name").required().custom(function(value){
 
 Every custom rule must extend from Ember.Validation.BaseRule.
 The validate() method must be overridden. Its also possible to define a error message.
+The placeholder for the property name is %@1. The parameter placeholders are %@2, %@3, ...
 
 ```js
-Ember.Validation.UpperCaseRule = Ember.Validation.BaseRule.extend({
-    message:"String must be upper case",
-    validate: function(value, obj) {
-        return value === value.toUpperCase();
+Ember.Validation.CaseRule = Ember.Validation.BaseRule.extend({
+    message:"String in @1 must be @2 case",
+    validate: function(value, case) {
+        if(case==='upper') {
+            return value === value.toUpperCase();
+        } else {
+            return value === value.toLowerCase();
+        }
     }
 });
 ```
 
-To make a custom rule available for chaining, call the registerRule() method:
+Call the registerRule() method to make a custom rule available for chaining:
 
 ```js
-Ember.Validation.registerRule("upper", Ember.Validation.UpperCaseRule);
+Ember.Validation.registerRule("case", Ember.Validation.CaseRule);
 ```
 
 Now you can use your custom rule the same way as the built in rules.
 
 ```js
-this.property("name").required().upper();
+this.property("name").required().case('lower');
 ```
 
 ### License

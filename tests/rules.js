@@ -13,22 +13,31 @@
 
   test('BaseRule', function() {
     var rule = Ember.Validation.BaseRule.create();
-    strictEqual(get(rule, 'error'), '(null) is invalid', 'error');
-    deepEqual(get(rule, 'parameters'), [], 'parameters');
-    strictEqual(get(rule, 'parameter'), null, 'parameter');
+    strictEqual(rule.getError(), '(null) is invalid', 'error');
+    deepEqual(rule.getParameters(), [], 'parameters');
     throws(rule.validate, "validate() throws exception");
   });
 
   test('RequiredRule', function() {
-    var rule = Ember.Validation.RequiredRule.create({parameter:false});
+    var rule1 = Ember.Validation.RequiredRule.create({parameters:[false]});
+    var rule2 = Ember.Validation.RequiredRule.create({parameters:[true]});
 
-    strictEqual(rule.validate(""), true, "not required \"\"");
-    strictEqual(get(rule, "override"), true, "not required: \"\" - override");
-    strictEqual(rule.validate("test"), true, "not required: test");
-    strictEqual(rule.validate(1), true, "not required: 1");
-    strictEqual(get(rule, "override"), false, "not required: 1 - override");
-    strictEqual(rule.validate(1), true, "not required: 0");
-    strictEqual(get(rule, "override"), false, "not required: 0 - override");
+    var result1 = rule1._validate("");
+    var result2 = rule1._validate("test");
+
+    strictEqual(result1.isValid, true, "not required \"\" - isValid");
+    strictEqual(result1.override, true, "not required: \"\" - override");
+    strictEqual(result2.isValid, true, "not required: test - isValid");
+    strictEqual(result2.override, false, "not required: test - override");
+
+    var result3 = rule2._validate("");
+    var result4 = rule2._validate("test");
+
+    strictEqual(result3.isValid, false, "required \"\" - isValid");
+    strictEqual(result3.override, false, "required: \"\" - override");
+    strictEqual(result3.error, "(null) is required", "required: \"\" - error");
+    strictEqual(result4.isValid, true, "required: test - isValid");
+    strictEqual(result4.override, false, "required: test - override");
 
   });
 
@@ -36,75 +45,98 @@
   test('EqualsRule', function() {
     var s = "testxy";
 
-    var rule1 = Ember.Validation.EqualsRule.create({parameter:"test"});
-    var rule2 = Ember.Validation.EqualsRule.create({parameter:function(){return s}});
+    var rule = Ember.Validation.EqualsRule.create({parameters:["test"]});
 
-    strictEqual(rule1.validate("test"), true, "test===test");
-    strictEqual(rule2.validate("x"), false, "test===x");
+    var result1 = rule._validate("test");
+    var result2 = rule._validate("foo");
 
-    strictEqual(rule2.validate(s), true, "var===function");
+    strictEqual(result1.isValid, true, "test===test \"\" - isValid");
+    strictEqual(result1.override, false, "test===test: \"\" - override");
+    strictEqual(result2.isValid, false, "test===foo \"\" - isValid");
+    strictEqual(result2.override, false, "test===foo: \"\" - override");
+    strictEqual(result2.error, "(null) must be equal to test", "required: \"\" - error");
+
+  });
+
+  test('EqualsRule - callback parameter', function() {
+    var obj = {name:"test"};
+    var rule = Ember.Validation.EqualsRule.create({parameters:[function(){return this.name}]});
+
+    var result1 = rule._validate("test", obj);
+    var result2 = rule._validate("foo", obj);
+
+    strictEqual(result1.isValid, true, "test===test \"\" - isValid");
+    strictEqual(result1.override, false, "test===test: \"\" - override");
+    strictEqual(result2.isValid, false, "test===foo \"\" - isValid");
+    strictEqual(result2.override, false, "test===foo: \"\" - override");
+    strictEqual(result2.error, "(null) must be equal to test", "required: \"\" - error");
 
   });
 
   test('CustomRule', function() {
-    expect(4);
+    expect(2);
 
-    var rule = Ember.Validation.CustomRule.create({parameter:function(value){
+    var obj = {name:"test"};
+
+    var rule = Ember.Validation.CustomRule.create({parameters:[function(value){
       strictEqual(typeof value, "string", "CustomRule callback");
-      return value==="test"
-    }});
+      return value===this.name
+    }]});
 
-    strictEqual(rule.validate("test"), true, "test===test");
-    strictEqual(rule.validate("x"), false, "test===x");
+    var result1 = rule._validate("test", obj);
 
+    strictEqual(result1.isValid, true, "test===test");
   });
 
   test('TextLengthRule', function() {
-    var rule1 = Ember.Validation.TextMinLengthRule.create({parameter:5});
-    var rule2 = Ember.Validation.TextMaxLengthRule.create({parameter:5});
+    var rule1 = Ember.Validation.TextMinLengthRule.create({parameters:[5]});
+
+    strictEqual(rule1._validate("test").isValid, false, "min 5: test - isValid");
+    strictEqual(rule1._validate("test1").isValid, true, "min 5: test1 - isValid");
+    strictEqual(rule1._validate("test12").isValid, true, "min 5: test12 - isValid");
+
+    var rule2 = Ember.Validation.TextMaxLengthRule.create({parameters:[5]});
+
+    strictEqual(rule2._validate("test").isValid, true, "max 5: test - isValid");
+    strictEqual(rule2._validate("test1").isValid, true, "max 5: test1 - isValid");
+    strictEqual(rule2._validate("test12").isValid, false, "max 5: test12 - isValid");
+
     var rule3 = Ember.Validation.TextLengthRule.create({parameters:[5,6]});
 
-    strictEqual(rule1.validate("test"), false, "min 5: test");
-    strictEqual(rule1.validate("test1"), true, "min 5: test1");
-    strictEqual(rule1.validate("test12"), true, "min 5: test12");
-
-    strictEqual(rule2.validate("test"), true, "max 5: test");
-    strictEqual(rule2.validate("test1"), true, "max 5: test1");
-    strictEqual(rule2.validate("test12"), false, "max 5: test12");
-
-    strictEqual(rule3.validate("test"), false, "lgth 5-6: test");
-    strictEqual(rule3.validate("test1"), true, "lgth 5-6: test1");
-    strictEqual(rule3.validate("test12"), true, "lgth 5-6: test12");
-    strictEqual(rule3.validate("test123"), false, "lgth 5-6: test123");
-
+    strictEqual(rule3._validate("test").isValid, false, "max 5: test - isValid");
+    strictEqual(rule3._validate("test1").isValid, true, "max 5: test1 - isValid");
+    strictEqual(rule3._validate("test12").isValid, true, "max 5: test12 - isValid");
+    strictEqual(rule3._validate("test123").isValid, false, "max 5: test123 - isValid");
   });
 
   test('RegexRule', function() {
-    var rule1 = Ember.Validation.MatchRule.create({parameter:/^(?!01000|99999)(0[1-9]\d{3}|[1-9]\d{4})$/});
-    var rule2 = Ember.Validation.NoMatchRule.create({parameter:/[A-Z]/});
+    var rule1 = Ember.Validation.MatchRule.create({parameters:[/^(?!01000|99999)(0[1-9]\d{3}|[1-9]\d{4})$/]});
+
+    strictEqual(rule1._validate("1234").isValid, false, "zip: 1234");
+    strictEqual(rule1._validate("12345").isValid, true, "zip: 12345");
+
+    var rule2 = Ember.Validation.NoMatchRule.create({parameters:[/[A-Z]/]});
+
+    strictEqual(rule2._validate("dSaDsa").isValid, false, "nocapital: dSaDsa");
+    strictEqual(rule2._validate("dsadsa").isValid, true, "nocapital: dsadsa");
+
     var rule3 = Ember.Validation.MailRule.create();
 
-    strictEqual(rule1.validate("1234"), false, "zip: 1234");
-    strictEqual(rule1.validate("12345"), true, "zip: 12345");
-
-    strictEqual(rule2.validate("dSaDsa"), false, "nocapital: dSaDsa");
-    strictEqual(rule2.validate("dsadsa"), true, "nocapital: dsadsa");
-
-    strictEqual(rule3.validate("test@test.com"), true, "mail: test@test.com");
-    strictEqual(rule3.validate("test.test@test.com"), true, "mail: test.test@test.com");
-    strictEqual(rule3.validate("testtest.com"), false, "mail: testtest.com");
-    strictEqual(rule3.validate("test@test.c"), false, "mail: test@test.c");
-    strictEqual(rule3.validate("test@testcom"), false, "mail: test@testcom");
-    strictEqual(rule3.validate("@testcom"), false, "mail: @testcom");
-    strictEqual(rule3.validate("testcom"), false, "mail: testcom");
-    strictEqual(rule3.validate("@test.com"), false, "mail: @test.com");
+    strictEqual(rule3._validate("test@test.com").isValid, true, "mail: test@test.com");
+    strictEqual(rule3._validate("test.test@test.com").isValid, true, "mail: test.test@test.com");
+    strictEqual(rule3._validate("testtest.com").isValid, false, "mail: testtest.com");
+    strictEqual(rule3._validate("test@test.c").isValid, false, "mail: test@test.c");
+    strictEqual(rule3._validate("test@testcom").isValid, false, "mail: test@testcom");
+    strictEqual(rule3._validate("@testcom").isValid, false, "mail: @testcom");
+    strictEqual(rule3._validate("testcom").isValid, false, "mail: testcom");
+    strictEqual(rule3._validate("@test.com").isValid, false, "mail: @test.com");
   });
 
   test('NumberRule', function() {
     var rule1 = Ember.Validation.NumberRule.create();
     var rule2 = Ember.Validation.IntegerRule.create();
-    var rule3 = Ember.Validation.NumberMinRule.create({parameter:5});
-    var rule4 = Ember.Validation.NumberMaxRule.create({parameter:5});
+    var rule3 = Ember.Validation.NumberMinRule.create({parameters:[5]});
+    var rule4 = Ember.Validation.NumberMaxRule.create({parameters:[5]});
     var rule5 = Ember.Validation.NumberRangeRule.create({parameters:[5,6]});
 
     strictEqual(rule1.validate("1"), true, "number: 1");
@@ -120,24 +152,18 @@
     strictEqual(rule2.validate("test"), false, "!integer: test");
     strictEqual(rule2.validate(""), false, "!integer: \"\"");
 
-    strictEqual(rule3.validate(4), false, "min: 4");
-    strictEqual(rule3.validate(5), true, "min: 5");
-    strictEqual(rule3.validate(6), true, "min: 6");
+    strictEqual(rule3._validate(4).isValid, false, "min: 4");
+    strictEqual(rule3._validate(5).isValid, true, "min: 5");
+    strictEqual(rule3._validate(6).isValid, true, "min: 6");
 
-    strictEqual(rule4.validate(4), true, "max: 4");
-    strictEqual(rule4.validate(5), true, "max: 5");
-    strictEqual(rule4.validate(6), false, "max: 6");
+    strictEqual(rule4._validate(4).isValid, true, "max: 4");
+    strictEqual(rule4._validate(5).isValid, true, "max: 5");
+    strictEqual(rule4._validate(6).isValid, false, "max: 6");
 
-    strictEqual(rule5.validate(4), false, "range 5-6: 4");
-    strictEqual(rule5.validate(4.99999), false, "range 5-6: 4.99999");
-    strictEqual(rule5.validate(5), true, "range 5-6: 5");
-    strictEqual(rule5.validate(6), true, "range 5-6: 6");
-    strictEqual(rule5.validate(7.00001), false, "range 5-6: 7.00001");
-
-
+    strictEqual(rule5._validate(4).isValid, false, "range 5-6: 4");
+    strictEqual(rule5._validate(4.99999).isValid, false, "range 5-6: 4.99999");
+    strictEqual(rule5._validate(5).isValid, true, "range 5-6: 5");
+    strictEqual(rule5._validate(6).isValid, true, "range 5-6: 6");
+    strictEqual(rule5._validate(7.00001).isValid, false, "range 5-6: 7.00001");
   });
-
-
-
-
 })();

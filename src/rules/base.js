@@ -7,66 +7,53 @@ Ember.Validation.BaseRule = Ember.Object.extend({
 
   propertyName: null,
   message: msgs.invalid,
-  override: false,
-  context:null,
-  _parameters:null,
+  parameters:null,
 
-  validate: function(value, obj) {
-    throw new Error("BaseValidators validate() must be overwritten");
+  _validate: function(value, context) {
+
+    var result = {
+      isValid:true,
+      error:"",
+      override:false
+    };
+
+    var parameters = this.getParameters(context);
+    result.isValid = this.validate.apply(this, [value].concat(parameters));
+    if(!result.isValid) {
+      result.error = this.getError(parameters);
+    }
+    result.override = this.override.apply(this, [value, result.isValid].concat(parameters));
+
+    return result;
   },
 
-  error: Ember.computed(function() {
-    return fmt(get(this, 'message'), [get(this, 'propertyName')].concat(get(this, 'parameters')));
-  }).property('propertyName', 'message', '_parameters.@each').volatile(), // non cacheable due to function values
+  validate: function(value, args) {
+    throw new Error("BaseRule validate() must be overwritten");
+  },
 
-  parameters: Ember.computed(function(key, value) {
-    // getter
-    if (arguments.length === 1) {
-      var retVal = [];
-      var pars = get(this, 'rawParameters');
-      for(var i=0;i<pars.length; i++) {
-        retVal.push(this._getParameter(pars[i]));
-      }
-      return retVal;
-    } else {
-      //setter
-      set(this, '_parameters', value);
-      return value;
-    }
-  }).property('_parameters').volatile(), // non cacheable due to function values,
+  override: function(value, isValid, args) {
+    return false;
+  },
 
-  parameter: Ember.computed(function(key, value) {
-    // getter
-    if (arguments.length === 1) {
-      var pars = get(this, 'rawParameters');
-      return get(pars, 'length') > 0 ? this._getParameter(pars[0]) : null;
-    } else {
-      //setter
-      set(this, '_parameters', [value]);
-      return value;
-    }
-  }).property('_parameters').volatile(), // non cacheable due to function values,
+  getError: function(parameters) {
+    return fmt(get(this, 'message'), [get(this, 'propertyName')].concat(parameters));
+  },
 
-  rawParameters: Ember.computed(function() {
+  getParameters: function(context) {
     var retVal = [];
-    var pars = get(this, '_parameters');
-    if(pars!==null) {
-      for(var i=0;i<pars.length; i++) {
-        retVal.push(pars[i]);
-      }
+    var pars = get(this, 'parameters');
+    if(!pars) {
+      return [];
+    }
+    for(var i=0;i<pars.length; i++) {
+      retVal.push(this._processParameter(pars[i], context));
     }
     return retVal;
-  }).property('_parameters').volatile(), // non cacheable due to function values,
+  },
 
-  rawParameter: Ember.computed(function() {
-    var pars = get(this, 'rawParameters');
-    return get(pars, 'length') > 0 ? pars[0] : null;
-  }).property('_parameters').volatile(), // non cacheable due to function values,
-
-  _getParameter: function(par) {
+  _processParameter: function(par, context) {
     if(typeof par === "function") {
-      var ctx = get(this, 'context');
-      return par.call(ctx);
+      return par.call(context);
     } else {
       return par;
     }
