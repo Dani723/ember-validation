@@ -7,7 +7,7 @@ Ember.Validation = Ember.Namespace.create();
 if ('undefined' === typeof EV) {
   EV = Ember.Validation;
 
-  if ('undefined' !== typeof window) {
+  if ('undefined' !== typeof window && 'undefined' !== typeof window.EV) {
     window.EV = Ember.Validation;
   }
 }
