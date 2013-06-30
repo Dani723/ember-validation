@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set;
+var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
 
 /**
 This mixin adds validation support to ember objects.
@@ -148,11 +148,11 @@ Ember.Validation.ValidatorSupport = Ember.Mixin.create(Ember.Evented, {
    @param func {Function} callback function
    */
   subscribeValidation: function(property, context, func) {
-    if(typeof property === 'object') {
+    if(toType(property)==='object') {
       func = context;
       context = property;
       property = '';
-    } else if(typeof property === 'function') {
+    } else if(toType(property)==='function') {
       func = property;
       context = null;
       property = '';
@@ -170,11 +170,11 @@ Ember.Validation.ValidatorSupport = Ember.Mixin.create(Ember.Evented, {
    @param func {Function} callback function
    */
   unsubscribeValidation: function(property, context, func) {
-    if(typeof property === 'object') {
+    if(toType(property)==='object') {
       func = context;
       context = property;
       property = '';
-    } else if(typeof property === 'function') {
+    } else if(toType(property)==='function') {
       func = property;
       context = null;
       property = '';

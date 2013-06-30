@@ -21,7 +21,7 @@ Ember.Validation.IntegerRule = Ember.Validation.NumberRule.extend({
     }
 
     var v = parseFloat(value);
-    return typeof v === 'number' && v % 1 === 0;
+    return toType(v)==='number' && v % 1 === 0;
   }
 });
 

@@ -35,7 +35,7 @@ Ember.Validation.CustomRule = Ember.Validation.BaseRule.extend({
     };
 
     var callback = get(this, 'parameters')[0];
-    if(typeof callback !== "function") {
+    if(toType(callback)!=="function") {
       throw new Error("CustomRule parameter must be function");
     }
 

@@ -50,7 +50,7 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
     }
 
     // check if validationobject has validatorsupport mixin
-    if(validationObject && typeof validationObject.validate ==='function' && validationProperty) {
+    if(validationObject && toType(validationObject.validate)==='function' && validationProperty) {
       set(this, 'validationProperty', validationProperty);
       set(this, 'validationObject', validationObject);
     } else {
@@ -120,7 +120,7 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
 
   doValidate: function(result) {
     var willRes = this.willValidate();
-    if(typeof willRes==='boolean' && !willRes) {
+    if(toType(willRes)==='boolean' && !willRes) {
       return;
     }
     set(this, 'validationResult', result);

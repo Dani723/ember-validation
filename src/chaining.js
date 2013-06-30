@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set;
+var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
 
 /**
 The Chaining object helps to create a ValueValidator in a single statement
@@ -72,9 +72,9 @@ Ember.Validation.Chaining = Ember.Object.extend({
       parameters:[!!get(this, 'isRequired')]
     });
 
-    if(typeof requiredMessage === 'string') {
+    if(toType(requiredMessage) === 'string') {
       set(req, 'message', requiredMessage);
-    } else if(typeof message === 'string') {
+    } else if(toType(message) === 'string') {
       set(req, 'message', message);
     }
 
@@ -93,9 +93,9 @@ Ember.Validation.Chaining = Ember.Object.extend({
         set(rule, 'parameters', chainlink.parameters);
       }
 
-      if(typeof chainlink.message === 'string') {
+      if(toType(chainlink.message)==='string') {
         set(rule, 'message', chainlink.message);
-      } else if(typeof message === 'string') {
+      } else if(toType(message)==='string') {
         set(rule, 'message', message);
       }
 

@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set;
+var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
 
 /**
 Validation result of a property
@@ -17,7 +17,7 @@ Ember.Validation.Result = Ember.Object.extend({
    property {boolean}
    */
   hasError: Ember.computed(function() {
-    return typeof get(this, 'error') === 'string';
+    return toType(get(this, 'error'))==='string';
   }).property('error'),
 
   /**

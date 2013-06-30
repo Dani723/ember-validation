@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt, msgs = Ember.Validation.defaultMessages;
+var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt, toType = Ember.Validation.toType, msgs = Ember.Validation.defaultMessages;
 /**
 Base class for rules.
 @class Ember.Validation.BaseRule
@@ -42,7 +42,7 @@ Ember.Validation.BaseRule = Ember.Object.extend({
   getParameters: function(context) {
     var retVal = [];
     var pars = get(this, 'parameters');
-    if(!pars) {
+    if(!pars && toType(pars) !== 'array') {
       return [];
     }
     for(var i=0;i<pars.length; i++) {
@@ -52,7 +52,7 @@ Ember.Validation.BaseRule = Ember.Object.extend({
   },
 
   _processParameter: function(par, context) {
-    if(typeof par === "function") {
+    if(toType(par)=== "function") {
       return par.call(context);
     } else {
       return par;
