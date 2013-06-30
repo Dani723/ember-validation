@@ -118,10 +118,10 @@ var validator = Ember.Validation.map(function() {
     this.property("email", "E-Mail").required().mail();
 });
 
-var user = Ember.Object.create({
+var user = {
     name: 'Mike',
     email: 'mike@foo.bar'
-});
+};
 
 var result = validator.validate(user);
 ```
@@ -147,10 +147,10 @@ App.User = Ember.Object.extend({
     });
 });
 
-var user = App.User.create({
+var user = {
     name: 'Mike',
     email: 'mike@foo.bar'
-});
+};
 
 var result = user.validate();
 ```
@@ -309,7 +309,7 @@ The placeholder for the property name is %@1. The parameter placeholders are %@2
 
 ```js
 Ember.Validation.CaseRule = Ember.Validation.BaseRule.extend({
-    message:"String in %@1 must be %@2 case",
+    message:"String in @1 must be @2 case",
     validate: function(value, case) {
         if(case==='upper') {
             return value === value.toUpperCase();
