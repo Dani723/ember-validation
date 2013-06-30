@@ -164,6 +164,6 @@
     strictEqual(rule5._validate(4.99999).isValid, false, "range 5-6: 4.99999");
     strictEqual(rule5._validate(5).isValid, true, "range 5-6: 5");
     strictEqual(rule5._validate(6).isValid, true, "range 5-6: 6");
-    strictEqual(rule5._validate(7.00001).isValid, false, "range 5-6: 7.00001");
+    strictEqual(rule5._validate(6.00001).isValid, false, "range 5-6: 6.00001");
   });
 })();
