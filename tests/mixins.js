@@ -51,21 +51,13 @@
     }).create();
 
     o.subscribeValidation("", this, function(result){
-      console.log(result);
-      console.log(result.get('hasError'));
-
       strictEqual(get(result, 'hasError'), true, "object callback");
     });
     o.subscribeValidation("name", this, function(result){
-      console.log(result.get('error'));
-      console.log(result.get('hasError'));
-
       strictEqual(get(result, 'hasError'), true, "name callback");
     });
 
     var func = function(result){
-      console.log(result.get('error'));
-      console.log(result.get('hasError'));
       strictEqual(get(result, 'hasError'), true, "age callback");
     };
 
