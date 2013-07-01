@@ -1,7 +1,7 @@
 {
 	"name": "ember-validation",
-	"title": "ember-validation",
-	"description": "validation functionality for ember and non-ember objects.",
+	"title": "Ember Validation",
+	"description": "Validation functionality for ember and non-ember objects.",
 	"version": "0.1.0",
 	"homepage": "https://github.com/Dani723/ember-validation",
 	"author": {
@@ -13,7 +13,7 @@
 		"url": "https://github.com/Dani723/ember-validation"
 	},
 	"bugs": {
-		"url": ""
+		"url": "https://github.com/Dani723/ember-validation/issues"
 	},
 	"licenses": [
 		{
@@ -30,9 +30,5 @@
     "grunt-contrib-yuidoc": "0.4.0",
 		"grunt": "0.4.1"
 	},
-	"keywords": [],
-
-  "scripts" : {
-    "start": "node main.js"
-  }
+	"keywords": []
 }
