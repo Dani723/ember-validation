@@ -41,24 +41,8 @@ App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
   validator: Ember.Validation.map(function() {
     this.property("name").required().minLength(4);
     this.property("email", "E-Mail").required().mail();
-    this.property("age").required().integer().min(function(){
-      if(App.territory === 'US') {
-        return 21;
-      } else {
-        return 18;
-      }
-    }).message("You have to be %@2 to join");
+    this.property("age").required().integer().min(18).message("You have to be %@2 to join");
     this.property("zodiac").minLength(4);
-    this.property("password")
-      .required()
-      .minLength(6)
-      .maxLength(20)
-      .match(/((?=.*\d)(?=.*[a-z])(?=.*[*@#$%]))/)
-        .message("Password must contain 1 digit and 1 special character *@#$%")
-      .equals(function(){
-        return this.get('password2')
-      })
-        .message("Passwords must be equal");
   })
 });
 
@@ -74,7 +58,6 @@ if(result.get('isValid')) {
 } else {
     ...
 }
-
 ```
 
 ## Usage
@@ -82,7 +65,7 @@ if(result.get('isValid')) {
 
 ### The ObjectValidator
 
-The ObjectValidator is the heart of Ember Validation and can easily be created with Ember.Validation.map();
+The ObjectValidator is the heart of Ember Validation and can be created with Ember.Validation.map();
 
 ```js
 var validator = Ember.Validation.map(function() {
@@ -110,7 +93,7 @@ var validator = Ember.Validation.map(function() {
 ```
 
 In this example we ensure a name with at least 4 characters and a valid mail address is set.
-Call the validate() of the validator method to start the validation process.
+Call the validate() method of the validator to start the validation process.
 
 ```js
 var validator = Ember.Validation.map(function() {
