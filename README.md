@@ -65,7 +65,7 @@ if(result.get('isValid')) {
 
 ### The ObjectValidator
 
-The ObjectValidator is the heart of Ember Validation and can be created with Ember.Validation.map();
+The ObjectValidator is the heart of Ember Validation and can be created with Ember.Validation.map(...);
 
 ```js
 var validator = Ember.Validation.map(function() {
@@ -73,7 +73,7 @@ var validator = Ember.Validation.map(function() {
 });
 ```
 
-To add validation rules for specific properties, call the property() method of the function context.
+To add validation rules for specific properties, call the property() method of the callback's context.
 These rules can be chained together. The built-in rules are listed below (see [Built in rules]).
 It is also possible to define own rules (see [Custom rules]).
 
@@ -88,11 +88,12 @@ name via the second argument.
 
 ```js
 var validator = Ember.Validation.map(function() {
-    this.property("email", "E-Mail").required().mail();
+    this.property("name").required().minLength(4);          // error message: Name is required
+    this.property("email", "E-Mail").required().mail();     // error message: E-Mail is required
 });
 ```
 
-In this example we ensure a name with at least 4 characters and a valid mail address is set.
+In this example we ensure that a name with at least 4 characters and a valid mail address is set.
 Call the validate() method of the validator to start the validation process.
 
 ```js
@@ -127,7 +128,9 @@ App.User = Ember.Object.extend({
     validator: Ember.Validation.map(function() {
        this.property("name").required().minLength(4);
        this.property("email", "E-Mail").required().mail();
-    });
+    }),
+
+    ...
 });
 
 var user = {
@@ -147,7 +150,7 @@ var isValidated = user.get('isValidated');
 ### The validation results
 
 The result of each validation is represented by an ValidationResult-Object, which is returned by the validate() method
-and also stored in the validationResult-property of the validated object.
+and also stored in the validationResult-property of the validated object when the ValidatorSupport Mixin is used.
 
 The most important properties for sure are 'isValid' and 'hasError' which simply can be true or false.
 
@@ -225,7 +228,7 @@ this.property("age").required().integer().min(function(){
 ## Error messages
 
 The default error messages can be overridden.
-To do so, call the message() method after the corresponding validator.
+To do so, call the message() method after the corresponding rule.
 
 ```js
 this.property("email", "E-Mail")
@@ -245,10 +248,10 @@ this.property("email", "E-Mail").message('A valid mail address is required')
 ## The ValidatorViewSupport Mixin
 
 This mixin binds to any object with the ValidatorSupport Mixin.
-It tries to acquire the validation object and property by examining any valueBinding, it is also possible to manually set
+It tries to acquire the validation object and property by examining the valueBinding. It is also possible to manually set
 the 'validationProperty' and 'validationObject' properties.
 
-On each validation event the 'validationResult' of the view is automatically set.
+On each validation event the 'validationResult' of the view is automatically updated.
 
 An implementation which sets the class of the view to 'error' and writes the error message in the 'data-error' attribute
 can be done as follows:
@@ -284,7 +287,7 @@ this.property("name").required().custom(function(value){
 }).message("String must be upper case");
 ```
 
-### Adding a custom rules
+### Adding a chainable custom rule
 
 Every custom rule must extend from Ember.Validation.BaseRule.
 The validate() method must be overridden. Its also possible to define a error message.
