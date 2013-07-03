@@ -7,7 +7,7 @@ module.exports = function(grunt) {
               separator: '\n',
               banner: '// Ember Validation\n// © 2013 Daniel Kuczewski\n// Licensed under MIT license\n// build date: <%= grunt.template.today("dd-mm-yyyy") %>\n',
               process: function(src, filepath) {
-                return '(function(window) {\n' + src + '})(this);\n';
+                return '(function(window) {\n' + src + '\n})(this);';
               }
             },
             dist: {
@@ -61,16 +61,8 @@ module.exports = function(grunt) {
               'src/validator.js',
               'src/mixins/validator_support.js',
               'src/mixins/validator_view_support.js',
-              'test/**/*.js'],
-            options: {
-                // options here to override JSHint defaults
-                globals: {
-                    jQuery: true,
-                    console: true,
-                    module: true,
-                    document: true
-                }
-            }
+              'test/**/*.js'
+            ]
         },
         yuidoc: {
           compile: {
