@@ -5,7 +5,7 @@ This library provides validation functionality for ember and non-ember objects.
 
 ## Getting Ember Validation
 
-[Get one from here](https://github.com/Dani723/builds/tree/master/ember-validation)
+[Get it from here](https://github.com/Dani723/builds/tree/master/ember-validation)
 
 or
 
@@ -43,7 +43,7 @@ if(result.get('isValid')) {
 
 ### The ObjectValidator
 
-The ObjectValidator is the heart of Ember Validation and can be created with Ember.Validation.map(...);
+The ObjectValidator is the heart of Ember Validation and is created with Ember.Validation.map(...);
 
 ```js
 var validator = Ember.Validation.map(function() {
