@@ -3,35 +3,13 @@
 This library provides validation functionality for ember and non-ember objects.
 
 
-## How to build
+## Getting Ember Validation
 
-You need to have node/npm and grunt installed to build Ember Validation.
+[Get one from here](/builds/tree/master/ember-validation)
 
-Grunt should be installed globally
+or
 
-```bash
-npm install -g grunt-cli
-```
-
-Clone a copy of the Ember Validation git repo
-
-```bash
-git clone git://github.com/Dani723/ember-validation.git
-```
-
-Now enter the directory and install the node dependencies
-
-```bash
-cd ember-validation && npm install
-```
-
-start 'grunt' to get a compressed and uncompressed version of Ember Validation,
-
-```bash
-grunt
-```
-
-Both versions of Ember Validation will be put in the 'dist' directory
+[Build it yourself](#how-to-build)
 
 ## Example
 
@@ -317,6 +295,36 @@ Now you can use your custom rule the same way as the built in rules.
 ```js
 this.property("name").required().case('lower');
 ```
+
+## How to build
+
+You need to have node/npm and grunt installed to build Ember Validation.
+
+Grunt should be installed globally
+
+```bash
+npm install -g grunt-cli
+```
+
+Clone a copy of the Ember Validation git repo
+
+```bash
+git clone git://github.com/Dani723/ember-validation.git
+```
+
+Now enter the directory and install the node dependencies
+
+```bash
+cd ember-validation && npm install
+```
+
+start 'grunt' to get a compressed and uncompressed version of Ember Validation,
+
+```bash
+grunt
+```
+
+Both versions of Ember Validation will be put in the 'dist' directory
 
 ### License
 
