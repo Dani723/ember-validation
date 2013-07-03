@@ -5,7 +5,7 @@ This library provides validation functionality for ember and non-ember objects.
 
 ## Getting Ember Validation
 
-[Get one from here](/builds/tree/master/ember-validation)
+[Get one from here](https://github.com/Dani723/builds/tree/master/ember-validation)
 
 or
 
@@ -52,8 +52,8 @@ var validator = Ember.Validation.map(function() {
 ```
 
 To add validation rules for specific properties, call the property() method of the callback's context.
-These rules can be chained together. The built-in rules are listed below (see [Built in rules]).
-It is also possible to define own rules (see [Custom rules]).
+These rules can be chained together. The built-in rules are listed below (see [Built in rules](#built-in-rules)).
+It is also possible to define own rules (see [Custom rules](#custom-rules)).
 
 ```js
 var validator = Ember.Validation.map(function() {
