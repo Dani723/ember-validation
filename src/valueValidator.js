@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
+var get = Ember.get, set = Ember.set;
 
 /**
  The ValueValidator stores a bunch of validators.

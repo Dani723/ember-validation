@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt, toType = Ember.Validation.toType, msgs = Ember.Validation.defaultMessages;
+toType = Ember.Validation.toType, msgs = Ember.Validation.defaultMessages;
 
 Ember.Validation.MatchRule = Ember.Validation.BaseRule.extend({
 
