@@ -129,7 +129,7 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
   },
 
   /**
-  beginns the chaining of a property validator
+  begins the chaining of a property validator
    @method property
    @return {Ember.Validation.Chain}
    */
