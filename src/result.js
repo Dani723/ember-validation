@@ -146,14 +146,58 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
     });
   },
 
+  property: function(property) {
+    var results = get(this, 'results');
+    return results.get(property);
+  },
+
   /**
    @private
    */
   unknownProperty: function(property) {
-    return get(this, 'results').get(property) || Ember.Validation.Result.create();
+    return this.property(property) || this._findMatchingProperty(property);
+  },
+
+  // Searches for possible matching chained property and returns
+  // an helper object  for deeper investigation
+  _findMatchingProperty: function(root) {
+
+    var results = get(this, 'results');
+
+    var hasMatchingProperty = function(property){
+      var match = false;
+      results.forEach(function(p, result){
+        if(p.indexOf(property+'.')===0) {
+          match = true;
+        }
+      });
+      return match;
+    };
+
+    if(hasMatchingProperty(root)) {
+      return Ember.Object.create({
+        parentProperty:root,
+
+        unknownProperty: function(property) {
+
+          property = get(this, 'parentProperty') + '.' + property;
+
+          if(results.has(property)) {
+            return results.get(property);
+          } else {
+            if(hasMatchingProperty(property)) {
+              set(this, 'parentProperty', property);
+              return this;
+            } else {
+              return undefined;
+            }
+          }
+        }
+      });
+    } else {
+      return undefined;
+    }
   }
-
-
 });
 
 

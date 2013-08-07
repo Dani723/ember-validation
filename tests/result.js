@@ -58,10 +58,45 @@
     strictEqual(get(oresult, 'age.hasError'), false, 'with error: age.hasError');
     strictEqual(get(oresult, 'age.error'), null, 'with error: age.error');
 
-    strictEqual(get(oresult, 'test.hasError'), false, 'with error: test.hasError');
-    strictEqual(get(oresult, 'test.error'), null, 'with error: test.error');
+    strictEqual(get(oresult, 'test.hasError'), undefined, 'undefined property: test.hasError');
+    strictEqual(get(oresult, 'test.error'), undefined, 'undefined property: test.error');
+
+  });
+
+  test('ValidationResult - chained properties', function() {
 
 
+    result1.setError("TestErrorMessage");
+    result2.setError("TestErrorMessage2");
+
+    oresult.setPropertyResult("obj.name", result1);
+    oresult.setPropertyResult("obj.test.name", result2);
+
+    strictEqual(get(oresult, 'isValid'), false, 'with error: isValid');
+    strictEqual(get(oresult, 'hasError'), true, 'with error: hasError');
+    deepEqual(get(oresult, 'errors'), ["TestErrorMessage", "TestErrorMessage2"], 'with error: errors');
+    deepEqual(get(oresult, 'properties'), ["obj.name", "obj.test.name"], 'with error: properties');
+    deepEqual(get(oresult, 'errorProperties'), ["obj.name", "obj.test.name"], 'with error: errorProperties');
+    strictEqual(get(oresult, 'length'), 2, 'with error: length');
+    strictEqual(get(oresult, 'errorLength'), 2, 'with error: errorLength');
+
+    strictEqual(get(oresult.property('obj.name'), 'hasError'), true, 'with error: name.hasError');
+    strictEqual(get(oresult.property('obj.name'), 'error'), "TestErrorMessage", 'with error: name.error');
+
+    strictEqual(get(oresult, 'obj.name.hasError'), true, 'with error: obj.name.hasError');
+    strictEqual(get(oresult, 'obj.name.error'), "TestErrorMessage", 'obj.name.error');
+
+    strictEqual(get(oresult, 'obj.test.name.hasError'), true, 'with error: obj.test.name.hasError');
+    strictEqual(get(oresult, 'obj.test.name.error'), "TestErrorMessage2", 'with error: obj.test.name.error');
+
+    strictEqual(get(oresult, 'obj.test.age.hasError'), undefined, 'undefined property: obj.test.age.hasError');
+    strictEqual(get(oresult, 'obj.test.age.error'), undefined, 'undefined property: obj.test.age.error');
+
+    strictEqual(get(oresult, 'obj.test.name.age.hasError'), undefined, 'undefined property: obj.test.name.age.hasError');
+    strictEqual(get(oresult, 'obj.test.name.age.error'), undefined, 'undefined property: obj.test.name.age.error');
+
+    strictEqual(get(oresult, 'obj.hasError'), undefined, 'undefined property: obj.hasError');
+    strictEqual(get(oresult, 'obj.error'), undefined, 'undefined property: obj.error');
 
   });
 
