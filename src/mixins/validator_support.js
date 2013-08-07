@@ -32,10 +32,10 @@ Ember.Validation.ValidatorSupport = Ember.Mixin.create(Ember.Evented, {
     // gets the objectvalidator for this class
     var validator = get(this, 'validator');
     if(!validator) {
-      throw new Error("Add validation property when using the ValidatorSupport mixin");
+      Ember.Logger.warn("Add validator property when using the ValidatorSupport mixin");
     } else {
       if(!Ember.Validation.ObjectValidator.detect(validator.constructor)){
-        throw new Error("validation property must be a subclass of ObjectValidator");
+        Ember.Logger.warn("The validator property must be a subclass of ObjectValidator");
       }
     }
 
