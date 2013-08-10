@@ -119,7 +119,7 @@ var user = {
 var result = user.validate();
 ```
 
-To check if a validation already took place, use the 'validated' property.
+To check if a validation already took place, use the 'isValidated' property.
 
 ```js
 var isValidated = user.get('isValidated');
