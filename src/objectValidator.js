@@ -88,12 +88,15 @@ Ember.Validation.ObjectValidator = Ember.Object.extend({
    */
   validateProperty: function(obj, property) {
 
-    if(!this.hasPropertyValidator(property)) {
-      //todo warn?
-      return Ember.Validation.Result.create();
+    if(this.hasPropertyValidator(property)) {
+      var pValidator = this.getPropertyValidator(property);
+      if(Ember.Validation.ValueValidator.detectInstance(pValidator)) {
+        return pValidator.validate(get(obj, property), obj);
+      } else if(Ember.Validation.ObjectValidator.detectInstance(pValidator)) {
+        return pValidator.validate(get(obj, property));
+      }
     }
-
-    var validators = get(this, 'validators');
-    return validators.get(property).validate(get(obj, property), obj);
+    //todo warn?
+    return null;
   }
 });

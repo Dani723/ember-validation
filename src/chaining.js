@@ -1,10 +1,10 @@
 var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
 
 /**
-The Chaining object helps to create a ValueValidator in a single statement
+ The Chaining object helps to create a ValueValidator in a single statement
 
-@class Ember.Validation.Chaining
-*/
+ @class Ember.Validation.Chaining
+ */
 Ember.Validation.Chaining = Ember.Object.extend({
 
   propertyName: null,
@@ -117,19 +117,19 @@ Ember.Validation.Chaining = Ember.Object.extend({
 });
 
 /**
-@class Ember.Validation.ChainingContext
-*/
+ @class Ember.Validation.ChainingContext
+ */
 Ember.Validation.ChainingContext = Ember.Object.extend({
 
-  chains:null,
+  items:null,
 
   init: function() {
     this._super();
-    set(this, 'chains', {});
+    set(this, 'items', {});
   },
 
   /**
-  begins the chaining of a property validator
+   begins the chaining of a property validator
    @method property
    @return {Ember.Validation.Chain}
    */
@@ -137,8 +137,19 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
     var chain = Ember.Validation.Chaining.create({
       propertyName: propertyName || (property.charAt(0).toUpperCase() + property.slice(1))
     });
-    get(this, 'chains')[property] = chain;
+    get(this, 'items')[property] = chain;
     return chain;
+  },
+
+  nested: function(property, validator) {
+    if(!Ember.Validation.ObjectValidator.detect(validator)) {
+      validator = validator.proto().validator;
+    }
+    if(Ember.Validation.ObjectValidator.detect(validator)) {
+      get(this, 'items')[property] = validator;
+    } else {
+      //todo: warn
+    }
   },
 
   /**
@@ -150,19 +161,18 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
 
     var oValidator = Ember.Validation.ObjectValidator.create();
 
-    var chains = get(this, 'chains');
-    for(var property in chains) {
-      if(chains.hasOwnProperty(property)) {
-        var chain = chains[property];
-        if(chain) {
-          var vValidator = chain;
-          // when its still a chain, create the ValueValidator
-          if(Ember.Validation.Chaining.detect(vValidator.constructor)) {
-            vValidator = chain.createValueValidator();
-          }
-          if(Ember.Validation.ValueValidator.detect(vValidator.constructor)){
-            oValidator.setPropertyValidator(property, vValidator);
-          }
+    var items = get(this, 'items');
+    for(var property in items) {
+      if(items.hasOwnProperty(property)) {
+        var item = items[property];
+        // when its still a chain, create the ValueValidator
+        if(Ember.Validation.Chaining.detect(item.constructor)) {
+          item = item.createValueValidator();
+        }
+
+        if(Ember.Validation.ValueValidator.detect(item.constructor) ||
+          Ember.Validation.ObjectValidator.detect(item.constructor)){
+          oValidator.setPropertyValidator(property, item);
         }
       }
     }
@@ -172,10 +182,10 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
 });
 
 /*
-function Ember.Validation.createValidator
-param {String} propertyName optional
-return {Object} Validator chain object
-*/
+ function Ember.Validation.createValidator
+ param {String} propertyName optional
+ return {Object} Validator chain object
+ */
 Ember.Validation.createValueValidator = function(propertyName){
   return Ember.Validation.Chain.create({
     propertyName: propertyName
@@ -183,10 +193,10 @@ Ember.Validation.createValueValidator = function(propertyName){
 };
 
 /*
-function createObjectValidator
-param {Function}
-return {Object} ObjectValidator
-*/
+ function createObjectValidator
+ param {Function}
+ return {Object} ObjectValidator
+ */
 Ember.Validation.createObjectValidator = function(cb){
   var chain = Ember.Validation.ChainingContext.create();
   cb.call(chain);
@@ -194,8 +204,8 @@ Ember.Validation.createObjectValidator = function(cb){
 };
 
 /*
-function Ember.Validation.map
-param {Function}
-return {Object} ObjectValidator
+ function Ember.Validation.map
+ param {Function}
+ return {Object} ObjectValidator
  */
 Ember.Validation.map = Ember.Validation.createObjectValidator;

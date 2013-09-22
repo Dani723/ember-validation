@@ -73,4 +73,35 @@
 
   });
 
+  test('ObjectValidator nested validation', function() {
+
+    var o = {
+      name:"test",
+      age:10,
+      company:{
+        name:"tst2"
+      }
+    }
+
+    var oValidator2 = Ember.Validation.ObjectValidator.create();
+    oValidator2.setPropertyValidator("name", validator2);
+
+    var oValidator = Ember.Validation.ObjectValidator.create();
+    oValidator.setPropertyValidator("name", validator2);
+    oValidator.setPropertyValidator("age", validator3);
+    oValidator.setPropertyValidator("company", oValidator2);
+
+    strictEqual(get(oValidator.validate(o), 'isValid'), false, "isValid");
+    strictEqual(get(oValidator.validate(o), 'errors.length'), 2, "error.length");
+    deepEqual(get(oValidator.validate(o), 'errorProperties'), ["name", "company"], 'errorProperties');
+    strictEqual(get(oValidator.validate(o), 'name.error'), "Name must be between 5 and 6 characters", "name.error");
+    strictEqual(get(oValidator.validate(o), 'company.name.error'), "Name must be between 5 and 6 characters", "company.name.error");
+    strictEqual(get(oValidator.validate(o), 'age.error'), null, "age.error");
+    o.name = "tester";
+    o.company.name = "tster2";
+    deepEqual(get(oValidator.validate(o), 'errorProperties'), [], 'errorProperties');
+    strictEqual(get(oValidator.validate(o), 'isValid'), true, "isValid");
+
+  });
+
 })();

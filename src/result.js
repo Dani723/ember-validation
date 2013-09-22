@@ -1,10 +1,10 @@
 var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
 
 /**
-Validation result of a property
+ Validation result of a property
 
-@class Ember.Validation.Result
-*/
+ @class Ember.Validation.Result
+ */
 Ember.Validation.Result = Ember.Object.extend({
 
   error:null,
@@ -28,10 +28,10 @@ Ember.Validation.Result = Ember.Object.extend({
 });
 
 /**
-Validation result of an object
-*
-@class Ember.Validation.ValidationResult
-*/
+ Validation result of an object
+ *
+ @class Ember.Validation.ValidationResult
+ */
 Ember.Validation.ValidationResult = Ember.Object.extend({
 
   results:null,
@@ -44,7 +44,11 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
   clear: function() {
     var results = get(this, 'results');
     results.forEach(function(property, result ) {
-      results.set(property, Ember.Validation.Result.create());
+      if(Ember.Validation.ValidationResult.detect(result)){
+        result.clear();
+      } else if(Ember.Validation.Result.detect(result)){
+        results.set(property, Ember.Validation.Result.create());
+      }
     });
     this.notifyPropertyChange('results');
   },
@@ -92,7 +96,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
   }).property('results'),
 
   /**
-  @property {string}
+   @property {string}
    */
   error: Ember.computed(function() {
     if(get(this, 'hasError')) {
@@ -109,7 +113,13 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
     var retVal = Ember.A();
     get(this, 'results').forEach(function(property, result) {
       if(get(result, 'hasError')) {
-        retVal.pushObject(get(result, 'error'));
+
+        if(Ember.Validation.ValidationResult.detectInstance(result)){
+          // merge arrays
+          retVal.pushObjects(get(result, 'errors'));
+        } else if(Ember.Validation.Result.detectInstance(result)){
+          retVal.pushObject(get(result, 'error'));
+        }
       }
     });
     return retVal;
@@ -146,58 +156,14 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
     });
   },
 
-  property: function(property) {
-    var results = get(this, 'results');
-    return results.get(property);
-  },
-
   /**
    @private
    */
   unknownProperty: function(property) {
-    return this.property(property) || this._findMatchingProperty(property);
-  },
-
-  // Searches for possible matching chained property and returns
-  // an helper object  for deeper investigation
-  _findMatchingProperty: function(root) {
-
-    var results = get(this, 'results');
-
-    var hasMatchingProperty = function(property){
-      var match = false;
-      results.forEach(function(p, result){
-        if(p.indexOf(property+'.')===0) {
-          match = true;
-        }
-      });
-      return match;
-    };
-
-    if(hasMatchingProperty(root)) {
-      return Ember.Object.create({
-        parentProperty:root,
-
-        unknownProperty: function(property) {
-
-          property = get(this, 'parentProperty') + '.' + property;
-
-          if(results.has(property)) {
-            return results.get(property);
-          } else {
-            if(hasMatchingProperty(property)) {
-              set(this, 'parentProperty', property);
-              return this;
-            } else {
-              return undefined;
-            }
-          }
-        }
-      });
-    } else {
-      return undefined;
-    }
+    return get(this, 'results').get(property) || Ember.Validation.Result.create();
   }
+
+
 });
 
 

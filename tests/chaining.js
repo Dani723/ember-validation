@@ -14,7 +14,6 @@
     }
   });
 
-
   test('Chain', function() {
 
     var chaining = Ember.Validation.Chaining.create({
@@ -53,14 +52,13 @@
 
   });
 
-
   test('ChainingContext', function() {
 
     chainingCtx.property("name", "Name").message("test").required().message("test2").length(1,50).message("test3");
     chainingCtx.property("age").required().integer().min(20);
 
-    strictEqual(get(chainingCtx, 'chains.name.chain.length'), 1, "chainingCtx name chain length");
-    strictEqual(get(chainingCtx, 'chains.age.chain.length'), 2, "chainingCtx age chain length");
+    strictEqual(get(chainingCtx, 'items.name.chain.length'), 1, "chainingCtx name chain length");
+    strictEqual(get(chainingCtx, 'items.age.chain.length'), 2, "chainingCtx age chain length");
   });
 
   test('ChainingContext -> ObjectValidator', function() {
@@ -73,7 +71,7 @@
     var p1validator = oValidator.getPropertyValidator('p1');
     var p2validator = oValidator.getPropertyValidator('p2');
 
-    strictEqual(get(p1validator, 'rules.length'), 3, "validators.length");
+    strictEqual(get(p1validator, 'rules.length'), 3, "rules.length");
 
     var p1r0 = get(p1validator, 'rules')[0];
     var p1r1 = get(p1validator, 'rules')[1];
