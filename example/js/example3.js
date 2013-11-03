@@ -46,6 +46,4 @@ App.Example3RepeatPasswordTextField = Ember.TextField.extend({
       });
     }
   }.observes('value')
-
-
 });

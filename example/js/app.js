@@ -88,11 +88,13 @@ App.ExampleController = Em.Controller.extend({
   user:null,
   result:null,
 
-  clear: function() {
-    this.get('user').clearValidation();
-  },
+  actions: {
+    clear: function() {
+      this.get('user').clearValidation();
+    },
 
-  validate: function() {
-    this.get('user').validate();
+    validate: function() {
+      this.get('user').validate();
+    }
   }
 });

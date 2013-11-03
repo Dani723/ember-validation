@@ -45,16 +45,16 @@
                 </a>
                 <ul class="nav">
                     <li>
-                        {{#linkTo example1}}Example 1{{/linkTo}}
+                        {{#linkTo "example1"}}Example 1{{/linkTo}}
                     </li>
                     <li>
-                        {{#linkTo example2}}Example 2{{/linkTo}}
+                        {{#linkTo "example2"}}Example 2{{/linkTo}}
                     </li>
                     <li>
-                        {{#linkTo example3}}Example 3{{/linkTo}}
+                        {{#linkTo "example3"}}Example 3{{/linkTo}}
                     </li>
                     <li>
-                        {{#linkTo example4}}Example 4{{/linkTo}}
+                        {{#linkTo "example4"}}Example 4{{/linkTo}}
                     </li>
                 </ul>
             </div>
@@ -136,7 +136,7 @@
 </script>
 <script type="text/x-handlebars" data-template-name="example2">
     <div>
-        <h1>Example 2: ValidatorViewSupport mixin</h1>
+        <h1>Example 2: Live validation</h1>
     </div>
     <form class="bs-docs-example form-horizontal">
         {{#if user.isValidated}}
@@ -189,7 +189,7 @@
 </script>
 <script type="text/x-handlebars" data-template-name="example3">
     <div>
-        <h1>Example 3: Advanced usage</h1>
+        <h1>Example 3: Live validation 2</h1>
     </div>
     <form class="bs-docs-example form-horizontal">
         {{#if user.isValidated}}
