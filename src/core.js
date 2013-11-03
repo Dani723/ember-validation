@@ -15,3 +15,11 @@ if ('undefined' === typeof EV) {
 Ember.Validation.toType = function(obj) {
   return ({}).toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
 };
+
+Ember.Validation.humanize = function (str) {
+  return str.replace(/_id$/, '').
+    replace(/_/g, ' ').
+    replace(/^\w/g, function (s) {
+      return s.toUpperCase();
+    });
+};

@@ -1,4 +1,4 @@
-var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType;
+var get = Ember.get, set = Ember.set, toType = Ember.Validation.toType, humanize = Ember.Validation.humanize;
 
 /**
  The Chaining object helps to create a ValueValidator in a single statement
@@ -135,7 +135,7 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
    */
   property: function(property, propertyName) {
     var chain = Ember.Validation.Chaining.create({
-      propertyName: propertyName || (property.charAt(0).toUpperCase() + property.slice(1))
+      propertyName: propertyName || humanize(property)
     });
     get(this, 'items')[property] = chain;
     return chain;
@@ -166,12 +166,12 @@ Ember.Validation.ChainingContext = Ember.Object.extend({
       if(items.hasOwnProperty(property)) {
         var item = items[property];
         // when its still a chain, create the ValueValidator
-        if(Ember.Validation.Chaining.detect(item.constructor)) {
+        if(Ember.Validation.Chaining.detectInstance(item)) {
           item = item.createValueValidator();
         }
 
-        if(Ember.Validation.ValueValidator.detect(item.constructor) ||
-          Ember.Validation.ObjectValidator.detect(item.constructor)){
+        if(Ember.Validation.ValueValidator.detectInstance(item) ||
+          Ember.Validation.ObjectValidator.detectInstance(item)){
           oValidator.setPropertyValidator(property, item);
         }
       }
