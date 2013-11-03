@@ -44,10 +44,10 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
   clear: function() {
     var results = get(this, 'results');
     results.forEach(function(property, result ) {
-      if(Ember.Validation.ValidationResult.detect(result)){
+      if(Ember.Validation.ValidationResult.detectInstance(result)){
         result.clear();
-      } else if(Ember.Validation.Result.detect(result)){
-        results.set(property, Ember.Validation.Result.create());
+      } else if(Ember.Validation.Result.detectInstance(result)){
+        result.set('error', null);
       }
     });
     this.notifyPropertyChange('results');
@@ -162,8 +162,4 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
   unknownProperty: function(property) {
     return get(this, 'results').get(property) || Ember.Validation.Result.create();
   }
-
-
 });
-
-
