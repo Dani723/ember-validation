@@ -26,6 +26,21 @@ Ember.Validation.ObjectValidator = Ember.Object.extend({
     return get(this, 'validators').has(property);
   },
 
+  createResult: function() {
+    var retVal = Ember.Validation.ValidationResult.create();
+
+    var properties = [];
+    get(this, 'validators').forEach(function(property){
+      properties.push(property);
+    });
+
+    for (var i=0;i<get(properties, 'length');i++) {
+      retVal.setPropertyResult(properties[i], Ember.Validation.Result.create());
+    }
+
+    return retVal;
+  },
+
   /**
    validates the object with the validators
    option can be
@@ -42,7 +57,7 @@ Ember.Validation.ObjectValidator = Ember.Object.extend({
   validate: function(obj, option) {
 
     var result;
-    var retVal = Ember.Validation.ValidationResult.create();
+    var retVal = this.createResult();
 
     var validateAll = true;
 
