@@ -53,6 +53,10 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
     this.notifyPropertyChange('results');
   },
 
+  getPropertyResult: function(property) {
+    return get(this, 'results').get(property) || Ember.Validation.Result.create();
+  },
+
   setPropertyResult: function(property, presult) {
     var results = get(this, 'results');
     results.set(property, presult);
@@ -160,6 +164,6 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    @private
    */
   unknownProperty: function(property) {
-    return get(this, 'results').get(property) || Ember.Validation.Result.create();
+    return this.getPropertyResult(property);
   }
 });
