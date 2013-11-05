@@ -2,7 +2,7 @@
 
 This library provides validation functionality for ember and non-ember objects.
 
-[Demo](http://dk2.eu/ember-validation/example/)
+[Demo](http://dk2.eu/ember-validation/demo/)
 
 ## Getting Ember Validation
 
