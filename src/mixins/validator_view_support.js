@@ -79,21 +79,6 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
     return null;
   },
 
-  /**
-   validates related property on the validation object without setting the result
-   *
-   * @method prevalidate
-   * @return {Ember.Validation.Result} returns the validation result
-   */
-  prevalidate: function() {
-    // just pass it to the ValidatorSupport object
-    var validationObject = get(this, 'validationObject');
-    var validationProperty = get(this, 'validationProperty');
-    if(validationObject) {
-      return validationObject.validateProperty(validationProperty);
-    }
-  },
-
   didInsertElement: function() {
     this._super();
 
@@ -126,6 +111,4 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
     set(this, 'validationResult', result);
     this.didValidate(result);
   }
-
-
 });
