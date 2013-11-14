@@ -18,11 +18,11 @@ Ember.Validation.BaseRule = Ember.Object.extend({
     };
 
     var parameters = this.getParameters(context);
-    result.isValid = this.validate.apply(this, [value].concat(parameters));
+    result.isValid = this.validate.apply(this, [value].concat(parameters, [context]));
     if(!result.isValid) {
       result.error = this.getError(parameters);
     }
-    result.override = this.override.apply(this, [value, result.isValid].concat(parameters));
+    result.override = this.override.apply(this, [value, result.isValid].concat(parameters, [context]));
 
     return result;
   },
