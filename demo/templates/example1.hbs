@@ -18,42 +18,42 @@
             </div>
         {{/if}}
     {{/if}}
-    <div class="control-group" {{bindAttr class="user.validationResult.name.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.name.hasError:error:"}}>
         <label class="control-label" for="inputName">Name</label>
         <div class="controls">
             {{view Ember.TextField id="inputName" valueBinding="user.name"}}
             <span class="help-inline">{{user.validationResult.name.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bindAttr class="user.validationResult.age.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.age.hasError:error:"}}>
         <label class="control-label" for="inputAge">Age</label>
         <div class="controls">
             {{view Ember.TextField id="inputAge" valueBinding="user.age"}}
             <span class="help-inline">{{user.validationResult.age.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bindAttr class="user.validationResult.email.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.email.hasError:error:"}}>
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
             {{view Ember.TextField id="inputEmail" valueBinding="user.email"}}
             <span class="help-inline">{{user.validationResult.email.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bindAttr class="user.validationResult.zodiac.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.zodiac.hasError:error:"}}>
         <label class="control-label" for="inputZodiac">Zodiac</label>
         <div class="controls">
             {{view Ember.TextField id="inputZodiac" valueBinding="user.zodiac"}}
             <span class="help-inline">{{user.validationResult.zodiac.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bindAttr class="user.validationResult.password.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.password.hasError:error:"}}>
         <label class="control-label" for="inputPassword">Password</label>
         <div class="controls">
             {{view Ember.TextField id="inputPassword" valueBinding="user.password"}}
             <span class="help-inline">{{user.validationResult.password.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bindAttr class="user.validationResult.password.hasError:error:"}}>
+    <div class="control-group" {{bind-attr class="user.validationResult.password.hasError:error:"}}>
         <label class="control-label" for="inputPassword2">Password 2</label>
         <div class="controls">
             {{view Ember.TextField id="inputPassword2" valueBinding="user.password2"}}
