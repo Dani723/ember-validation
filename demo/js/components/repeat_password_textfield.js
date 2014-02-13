@@ -1,4 +1,4 @@
-App.RepeatPasswordTextField = Ember.TextField.extend({
+App.RepeatPasswordTextFieldComponent = Ember.TextField.extend({
 
   classNameBindings:['parentView.inputPassword.validationResult.hasError:error:'],
 

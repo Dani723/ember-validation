@@ -1,4 +1,4 @@
-App.ValidatorTextField = Ember.TextField.extend(Ember.Validation.ValidatorViewSupport, {
+App.ValidatorTextFieldComponent = Ember.TextField.extend(Ember.Validation.ValidatorViewSupport, {
 
   classNameBindings:['validationResult.hasError:error:'],
 
