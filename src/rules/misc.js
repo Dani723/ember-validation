@@ -3,16 +3,18 @@ var get = Ember.get, toType = Ember.Validation.toType, msgs = Ember.Validation.d
 Ember.Validation.RequiredRule = Ember.Validation.BaseRule.extend({
 
   message: msgs.required,
-  override: false,
+
+  isEmpty: function(value) {
+    return value === null || value === '';
+  },
 
   validate: function(value, required) {
-    return !value ? !required : true;
+    return this.isEmpty(value) ? !required : true;
   },
 
   override: function(value, isValid, required) {
-    return !value && !required;
+    return this.isEmpty(value) && !required;
   }
-
 });
 
 Ember.Validation.EqualsRule = Ember.Validation.BaseRule.extend({
