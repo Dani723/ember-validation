@@ -1,11 +1,7 @@
 App.ExampleRoute = Ember.Route.extend({
 
   model: function() {
-    return App.User.create();
-  },
-
-  setupController: function(controller, model) {
-    controller.set('user', model);
+    return this.store.createRecord('user');
   }
 });
 

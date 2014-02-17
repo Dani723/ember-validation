@@ -1,6 +1,6 @@
 var territory = 'EU';
 
-App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
+App.User = DS.Model.extend(Ember.Validation.ValidatorSupport, {
 
   validator: Ember.Validation.map(function() {
     this.property("name").required().minLength(4);
@@ -29,10 +29,10 @@ App.User = Em.Object.extend(Ember.Validation.ValidatorSupport, {
       .message("Passwords must be equal");
   }),
 
-  name:null,
-  email:null,
-  age:null,
-  zodiac:null,
-  password:null,
-  password2:null
+  name: DS.attr('string'),
+  email: DS.attr('string'),
+  age: DS.attr('number'),
+  zodiac: DS.attr('string'),
+  password: DS.attr('string'),
+  password2: DS.attr('string')
 });
