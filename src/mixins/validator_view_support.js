@@ -53,7 +53,7 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
     if(validationObject && toType(validationObject.validate)==='function' && validationProperty) {
       set(this, 'validationProperty', validationProperty);
       set(this, 'validationObject', validationObject);
-    } else if(validationObject && toType(validationObject.get('model.validate'))==='function' && validationProperty) {
+    } else if(Ember.ObjectController.detectInstance(validationObject) && toType(validationObject.get('model.validate'))==='function' && validationProperty) {
       set(this, 'validationProperty', validationProperty);
       set(this, 'validationObject', validationObject.get('model'));
     } else {
