@@ -60,6 +60,21 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label" for="inputIsAdmin">Is ninja?</label>
+        <div class="controls">
+            {{input type="checkbox" id="inputIsAdmin" checked=isNinja}}
+        </div>
+    </div>
+    {{#if isNinja}}
+    <div class="control-group" {{bind-attr class="view.inputSecretWord.validationResult.hasError:error:"}}>
+        <label class="control-label" for="inputSecretWord">Secret Ninja Word</label>
+        <div class="controls">
+            {{validator-text-field viewName="inputSecretWord" id="inputSecretWord" value=secretNinjaWord}}
+            <span class="help-inline">{{view.inputSecretWord.validationResult.error}}</span>
+        </div>
+    </div>
+    {{/if}}
+    <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn" {{action "clear"}}>Clear</button>
             <button type="submit" class="btn" {{action "validate"}}>Validate</button>
