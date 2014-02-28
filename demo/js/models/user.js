@@ -30,6 +30,7 @@ App.User = DS.Model.extend(Ember.Validation.ValidatorSupport, {
 
     this.property("secretNinjaWord", "Secret ninja word")
       .required(function(value) {
+        console.log('Is secretNinjaWord required?', this.get('isNinja'));
         return this.get('isNinja');
       })
       .custom(function(value) {
