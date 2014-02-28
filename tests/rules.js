@@ -21,6 +21,8 @@
   test('RequiredRule', function() {
     var rule1 = Ember.Validation.RequiredRule.create({parameters:[false]});
     var rule2 = Ember.Validation.RequiredRule.create({parameters:[true]});
+    var rule3 = Ember.Validation.RequiredRule.create({parameters:[function() { return false; }]});
+    var rule4 = Ember.Validation.RequiredRule.create({parameters:[function() { return true; }]});
 
     var result1 = rule1._validate("");
     var result2 = rule1._validate("test");
@@ -38,6 +40,23 @@
     strictEqual(result3.error, "(null) is required", "required: \"\" - error");
     strictEqual(result4.isValid, true, "required: test - isValid");
     strictEqual(result4.override, false, "required: test - override");
+
+    var result5 = rule3._validate("");
+    var result6 = rule3._validate("test");
+
+    strictEqual(result5.isValid, true, "not required (func) \"\" - isValid");
+    strictEqual(result5.override, true, "not required (func): \"\" - override");
+    strictEqual(result6.isValid, true, "not required (func): test - isValid");
+    strictEqual(result6.override, false, "not required (func): test - override");
+
+    var result7 = rule4._validate("");
+    var result8 = rule4._validate("test");
+
+    strictEqual(result7.isValid, false, "required (func) \"\" - isValid");
+    strictEqual(result7.override, false, "required (func): \"\" - override");
+    strictEqual(result7.error, "(null) is required", "required (func): \"\" - error");
+    strictEqual(result8.isValid, true, "required (func): test - isValid");
+    strictEqual(result8.override, false, "required (func): test - override");
 
   });
 
