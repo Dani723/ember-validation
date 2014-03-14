@@ -4,16 +4,12 @@ Ember.Validation.RequiredRule = Ember.Validation.BaseRule.extend({
 
   message: msgs.required,
 
-  isEmpty: function(value) {
-    return value === null || value === '';
-  },
-
   validate: function(value, required) {
-    return this.isEmpty(value) ? !required : true;
+    return Ember.isEmpty(value) ? !required : true;
   },
 
   override: function(value, isValid, required) {
-    return this.isEmpty(value) && !required;
+    return Ember.isEmpty(value) && !required;
   }
 });
 
