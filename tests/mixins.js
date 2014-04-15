@@ -40,6 +40,21 @@
 
   });
 
+  /**
+   * Should support specifying a base class without explicitly declaring a validator property
+   * 
+   * Example:
+   * App.Form = Em.Object.extend(Ember.Validation.ValidatorSupport);
+   * App.Form.create();
+   */
+  test('ValidatorSupport initializes without explicitly declaring validator property', function() {
+    expect(1);
+    
+    var o = Ember.Object.extend(Ember.Validation.ValidatorSupport).create();
+    
+    ok(o); 
+  });
+
   test('ValidatorSupport callbacks', function() {
     expect(5);
 
