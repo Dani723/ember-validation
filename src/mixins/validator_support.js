@@ -39,7 +39,9 @@ Ember.Validation.ValidatorSupport = Ember.Mixin.create(Ember.Evented, {
       }
     }
 
-    this.set('validationResult', validator.createResult());
+    if (validator) {
+      this.set('validationResult', validator.createResult());
+    }
   },
 
   /**
