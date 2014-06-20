@@ -27,6 +27,15 @@ App.User = DS.Model.extend(Ember.Validation.ValidatorSupport, {
         return this.get('password2')
       })
       .message("Passwords must be equal");
+
+    this.property("secretNinjaWord", "Secret ninja word")
+      .required(function(value) {
+        console.log('Is secretNinjaWord required?', this.get('isNinja'));
+        return this.get('isNinja');
+      })
+      .custom(function(value) {
+        return !this.get('isNinja') || value === 'NINJA!';
+      }).message('The secret ninja word must be "NINJA!"');
   }),
 
   name: DS.attr('string'),
@@ -34,5 +43,7 @@ App.User = DS.Model.extend(Ember.Validation.ValidatorSupport, {
   age: DS.attr('number'),
   zodiac: DS.attr('string'),
   password: DS.attr('string'),
-  password2: DS.attr('string')
+  password2: DS.attr('string'),
+  isNinja: DS.attr('boolean'),
+  secretNinjaWord: DS.attr('string')
 });

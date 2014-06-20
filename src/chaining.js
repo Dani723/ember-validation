@@ -23,9 +23,15 @@ Ember.Validation.Chaining = Ember.Object.extend({
    * sets the property as required
    *
    * @method required
+   * @param {boolean} isRequired Whether or not this field is required. If a function is passed in then it 
+   * will be run every time the field is validated (which allows it to be dependant on other properties of
+   * the object)
    */
-  required: function() {
-    set(this, 'isRequired', true);
+  required: function(isRequired) {
+    if (Ember.isNone(isRequired)) {
+      isRequired = true;
+    }
+    set(this, 'isRequired', isRequired);
     return this;
   },
 
@@ -42,7 +48,11 @@ Ember.Validation.Chaining = Ember.Object.extend({
       v.message = msg;
     } else {
       // if there is no validator, check if required has been set
-      if(get(this, 'isRequired')){
+      var isRequired = get(this, 'isRequired');
+      if (Ember.Validation.toType(isRequired) === 'function') {
+        isRequired = isRequired();
+      }
+      if(isRequired){
         // required is the last validator
         set(this, 'requiredErrorMessage', msg);
       } else {
@@ -66,10 +76,16 @@ Ember.Validation.Chaining = Ember.Object.extend({
     var propertyName = get(this, 'propertyName');
     var message = get(this, 'errorMessage');
     var requiredMessage = get(this, 'requiredErrorMessage');
+    var isRequired = get(this, 'isRequired');
+    if (Ember.Validation.toType(isRequired) === 'function') {
+      isRequired = isRequired;
+    } else {
+      isRequired = !!isRequired;
+    }
 
     var req = Ember.Validation.RequiredRule.create({
       propertyName:propertyName,
-      parameters:[!!get(this, 'isRequired')]
+      parameters:[isRequired]
     });
 
     if(toType(requiredMessage) === 'string') {
