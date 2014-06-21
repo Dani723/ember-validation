@@ -15,7 +15,10 @@ App.User = DS.Model.extend(Ember.Validation.ValidatorSupport, {
       }
     }).message("You have to be %@2 to join");
 
-    this.property("zodiac").minLength(4);
+    this.property("zodiac").custom(function(value) {
+      console.log('Checking zodiac', value);
+      return !Ember.isEmpty(value);
+    }).message('Zodiac must be set. Note that this field does not revalidate when you empty it.');
 
     this.property("password")
       .required()

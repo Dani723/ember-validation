@@ -38,7 +38,7 @@ Ember.Validation.ValueValidator = Ember.Object.extend({
 
     for (var i=0; i<rules.length; i++) {
       var result = rules[i]._validate(value, obj);
-      if(!result.isValid  || result.override) {
+      if(!result.isValid) {
         if(!result.isValid) {
           vresult.setError(result.error);
         }
