@@ -134,7 +134,7 @@ Ember.Validation.ValidatorSupport = Ember.Mixin.create(Ember.Evented, {
   triggerValidation: function(vResult) {
     var thiz = this;
 
-    get(vResult, 'results').forEach(function(property, result){
+    get(vResult, 'results').forEach(function(result, property) {
       thiz.trigger('v_event' + property, result, thiz);
     });
 
