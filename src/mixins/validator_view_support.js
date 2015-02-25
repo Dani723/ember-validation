@@ -31,19 +31,22 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
     // when there is no validation target set, try it with valueBinding
     if(!validationObject) {
       var binding = get(this, 'valueBinding');
+
       if(binding) {
-        var target = binding._from;
+        var parentContext = this.get('_parentView.context');
+
         // if there is a binding, determine the object and property
-        if(target) {
+        if(parentContext) {
+          var bindingStream = binding.stream;
+          if(bindingStream && bindingStream.source && bindingStream.source.key) {
+            validationProperty = bindingStream.source.key;
+          }
 
-          var idx = target.lastIndexOf('.');
-
-          if (idx !== -1) {
-            validationProperty = target.substr(idx + 1);
-            validationObject = get(this, target.substr(0, idx));
+          var parentModel = parentContext.get('model');
+          if(parentModel) {
+            validationObject = parentModel;
           } else {
-            validationProperty = target;
-            validationObject = get(this, 'context');
+            validationObject = parentContext;
           }
         }
       }
@@ -61,7 +64,6 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
       set(this, 'validationObject', null);
       Ember.warn('ValidatorViewSupport needs either a validationObject/validationProperty or a valueBinding which binds toward a ValidatorSupport mixin');
     }
-
   },
 
   /**

@@ -43,10 +43,10 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
 
   clear: function() {
     var results = get(this, 'results');
-    results.forEach(function(property, result ) {
-      if(Ember.Validation.ValidationResult.detectInstance(result)){
+    results.forEach(function(result, property) {
+      if(Ember.Validation.ValidationResult.detectInstance(result)) {
         result.clear();
-      } else if(Ember.Validation.Result.detectInstance(result)){
+      } else if(Ember.Validation.Result.detectInstance(result)) {
         result.set('error', null);
       }
     });
@@ -80,7 +80,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    */
   properties: Ember.computed(function() {
     var retVal = Ember.A();
-    get(this, 'results').forEach(function(property, result ) {
+    get(this, 'results').forEach(function(result, property) {
       retVal.pushObject(property);
     });
     return retVal;
@@ -91,7 +91,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    */
   errorProperties: Ember.computed(function() {
     var retVal = Ember.A();
-    get(this, 'results').forEach(function(property, result ) {
+    get(this, 'results').forEach(function(result, property) {
       if(get(result, 'hasError')) {
         retVal.pushObject(property);
       }
@@ -115,7 +115,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    */
   errors: Ember.computed(function() {
     var retVal = Ember.A();
-    get(this, 'results').forEach(function(property, result) {
+    get(this, 'results').forEach(function(result, property) {
       if(get(result, 'hasError')) {
 
         if(Ember.Validation.ValidationResult.detectInstance(result)){
@@ -134,7 +134,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    */
   length: Ember.computed(function() {
     var length=0;
-    get(this, 'results').forEach(function(property, result) {
+    get(this, 'results').forEach(function(result, property) {
       length++;
     });
     return length;
@@ -145,7 +145,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
    */
   errorLength: Ember.computed(function() {
     var length=0;
-    get(this, 'results').forEach(function(property, result) {
+    get(this, 'results').forEach(function(result, property) {
       if(get(result, 'hasError')) {
         length++;
       }
@@ -155,7 +155,7 @@ Ember.Validation.ValidationResult = Ember.Object.extend({
 
   merge: function(oresult) {
     var that = this;
-    get(oresult, 'results').forEach(function(property, result){
+    get(oresult, 'results').forEach(function(result, property) {
       that.setPropertyResult(property, result);
     });
   },
