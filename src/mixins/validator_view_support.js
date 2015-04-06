@@ -38,8 +38,8 @@ Ember.Validation.ValidatorViewSupport = Ember.Mixin.create({
         // if there is a binding, determine the object and property
         if(parentContext) {
           var bindingStream = binding.stream;
-          if(bindingStream && bindingStream.source && bindingStream.source.key) {
-            validationProperty = bindingStream.source.key;
+          if(bindingStream && bindingStream.key) {
+            validationProperty = bindingStream.key;
           }
 
           var parentModel = parentContext.get('model');

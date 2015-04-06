@@ -21,35 +21,35 @@
     <div {{bind-attr class=":control-group view.inputName.validationResult.hasError:error:"}}>
         <label class="control-label" for="inputName">Name</label>
         <div class="controls">
-            {{validator-text-field viewName="inputName" id="inputName" value=name}}
+            {{validator-text-field viewName="inputName" id="inputName" value=model.name}}
             <span class="help-inline">{{view.inputName.validationResult.error}}</span>
         </div>
     </div>
     <div {{bind-attr class=":control-group view.inputAge.validationResult.hasError:error:"}}>
         <label class="control-label" for="inputAge">Age</label>
         <div class="controls">
-            {{validator-text-field viewName="inputAge" id="inputAge" value=age}}
+            {{validator-text-field viewName="inputAge" id="inputAge" value=model.age}}
             <span class="help-inline">{{view.inputAge.validationResult.error}}</span>
         </div>
     </div>
     <div {{bind-attr class=":control-group view.inputEmail.validationResult.hasError:error:"}}>
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
-            {{validator-text-field viewName="inputEmail" id="inputEmail" value=email}}
+            {{validator-text-field viewName="inputEmail" id="inputEmail" value=model.email}}
             <span class="help-inline">{{view.inputEmail.validationResult.error}}</span>
         </div>
     </div>
     <div {{bind-attr class=":control-group view.inputZodiac.validationResult.hasError:error:"}}>
         <label class="control-label" for="inputZodiac">Zodiac</label>
         <div class="controls">
-            {{validator-text-field viewName="inputZodiac"  id="inputZodiac" value=zodiac}}
+            {{validator-text-field viewName="inputZodiac"  id="inputZodiac" value=model.zodiac}}
             <span class="help-inline">{{view.inputZodiac.validationResult.error}}</span>
         </div>
     </div>
     <div {{bind-attr class=":control-group view.inputPassword.validationResult.hasError:error:"}}>
         <label class="control-label" for="inputPassword">Password</label>
         <div class="controls">
-            {{validator-text-field viewName="inputPassword" id="inputPassword" value=password}}
+            {{validator-text-field viewName="inputPassword" id="inputPassword" value=model.password}}
             <span class="help-inline">{{view.inputPassword.validationResult.error}}</span>
         </div>
     </div>
