@@ -1,5 +1,5 @@
-App.Example2Controller = Ember.ObjectController.extend({
-  
+App.Example2Controller = Ember.Controller.extend({
+
   actions: {
     clear: function() {
       var user = this.get('model');

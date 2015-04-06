@@ -1,4 +1,4 @@
-App.Example1Controller = Ember.ObjectController.extend({
+App.Example1Controller = Ember.Controller.extend({
 
   actions: {
     clear: function() {

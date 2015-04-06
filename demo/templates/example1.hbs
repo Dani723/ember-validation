@@ -18,45 +18,45 @@
             </div>
         {{/if}}
     {{/if}}
-    <div class="control-group" {{bind-attr class="model.validationResult.name.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.name.hasError:error:"}}>
         <label class="control-label" for="inputName">Name</label>
         <div class="controls">
-            {{input id="inputName" value=name}}
+            {{input id="inputName" value=model.name}}
             <span class="help-inline">{{model.validationResult.name.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bind-attr class="model.validationResult.age.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.age.hasError:error:"}}>
         <label class="control-label" for="inputAge">Age</label>
         <div class="controls">
-            {{input id="inputAge" value=age}}
+            {{input id="inputAge" value=model.age}}
             <span class="help-inline">{{model.validationResult.age.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bind-attr class="model.validationResult.email.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.email.hasError:error:"}}>
         <label class="control-label" for="inputEmail">Email</label>
         <div class="controls">
-            {{input id="inputEmail" value=email}}
+            {{input id="inputEmail" value=model.email}}
             <span class="help-inline">{{model.validationResult.email.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bind-attr class="model.validationResult.zodiac.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.zodiac.hasError:error:"}}>
         <label class="control-label" for="inputZodiac">Zodiac</label>
         <div class="controls">
-            {{input id="inputZodiac" value=zodiac}}
+            {{input id="inputZodiac" value=model.zodiac}}
             <span class="help-inline">{{model.validationResult.zodiac.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bind-attr class="model.validationResult.password.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.password.hasError:error:"}}>
         <label class="control-label" for="inputPassword">Password</label>
         <div class="controls">
-            {{input id="inputPassword" value=password}}
+            {{input id="inputPassword" value=model.password}}
             <span class="help-inline">{{model.validationResult.password.error}}</span>
         </div>
     </div>
-    <div class="control-group" {{bind-attr class="model.validationResult.password.hasError:error:"}}>
+    <div {{bind-attr class=":control-group model.validationResult.password.hasError:error:"}}>
         <label class="control-label" for="inputPassword2">Password 2</label>
         <div class="controls">
-            {{view Ember.TextField id="inputPassword2" value=password2}}
+            {{input type="text" id="inputPassword2" value=model.password2}}
         </div>
     </div>
     <div class="control-group">
