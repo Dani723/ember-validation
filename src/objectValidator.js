@@ -30,7 +30,7 @@ Ember.Validation.ObjectValidator = Ember.Object.extend({
     var retVal = Ember.Validation.ValidationResult.create();
 
     var properties = [];
-    get(this, 'validators').forEach(function(property){
+    get(this, 'validators').forEach(function(result, property) {
       properties.push(property);
     });
 
@@ -76,7 +76,7 @@ Ember.Validation.ObjectValidator = Ember.Object.extend({
       } else {
         var validators = get(this, 'validators');
 
-        validators.forEach(function(property){
+        validators.forEach(function(result, property) {
           properties.push(property);
         });
       }
